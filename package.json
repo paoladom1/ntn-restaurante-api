@@ -1,0 +1,35 @@
+{
+  "name": "ntn-restaurante-api",
+  "version": "1.0.0",
+  "description": "restful api using express and mongoDB",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/.bin/nodemon app.js --exec babel-node --"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paoladom1/ntn-restaurante-api.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "mongodb",
+    "rest"
+  ],
+  "author": "Paola Dominguez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paoladom1/ntn-restaurante-api/issues"
+  },
+  "homepage": "https://github.com/paoladom1/ntn-restaurante-api#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
