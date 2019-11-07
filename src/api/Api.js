@@ -1,14 +1,16 @@
  
 import express from "express";
-router = express.Router();
+ var router = express.Router();
 import ClientController from "../controllers/ClientController";
 import EventController from "../controllers/EventController";
 import RestaurantController from "../controllers/RestaurantController";
 import EmployeeController  from "../controllers/EmployeeController";
 
-router.get("/client:name", ClientController.getCode);
-router.get("/client", ClientController.getCode);
+router.get("/client:name", ClientController.getId)
+router.get("/client", ClientController.getId)
+
 router.post("/client", ClientController.createClient);
+
 router.put("/client/:name", ClientController.updateClient);
 router.delete("/client/:name", ClientController.deleteClient);
 

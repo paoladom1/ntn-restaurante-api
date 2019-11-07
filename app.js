@@ -5,7 +5,7 @@ import apiRouter from './src/api/Api';
 
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb+srv://Fran2333:puky28012008@cluster0-osbzz.mongodb.net/test?retryWrites=true&w=majority', {
+mongoose.connect('mongodb+srv://Fran2333:puky28012008@cluster0-osbzz.mongodb.net/Restaurant', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then( ()=> {

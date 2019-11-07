@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-  Schema = mongoose.Schema;
+   var Schema = mongoose.Schema;
 
 
 var schema = new Schema({
@@ -9,4 +9,4 @@ var schema = new Schema({
 });
 
 
-module.exports = mongoose.models('Client',schema);
+module.exports = mongoose.model('Client',schema);
