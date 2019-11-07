@@ -1,12 +1,10 @@
-import mongoose from 'mongoose';
-   var Schema = mongoose.Schema;
+import mongoose from "mongoose";
+const Schema = mongoose.Schema;
 
-
-var schema = new Schema({
-    Name: String,
-    Email: String,
-    DUI: String,
+const schema = new Schema({
+  Name: String,
+  Email: String,
+  DUI: String
 });
 
-
-module.exports = mongoose.model('Client',schema);
+module.exports = mongoose.model("Client", schema);
