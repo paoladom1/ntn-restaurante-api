@@ -8,7 +8,7 @@ module.exports.getId = (req,res)=>{
     });
 }
 
-module.exports.createCLient = (req,res) =>{
+module.exports.createClient = (req,res) =>{
     let insertClient = new Client({
         Name: req.body.Name,
         Email: req.body.Email,
@@ -24,7 +24,7 @@ module.exports.createCLient = (req,res) =>{
         })
     };
 
-module.exports.updateCLient = (req,res)=>{
+module.exports.updateClient = (req,res)=>{
     Client.findByIdAndUpdate(
         req.params.CLientId,
         req.body,
