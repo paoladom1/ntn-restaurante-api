@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
- var Schema = mongoose.Schema;
+  Schema = mongoose.Schema;
 
 
 var schema = new Schema({
