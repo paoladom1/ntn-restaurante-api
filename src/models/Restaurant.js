@@ -6,10 +6,10 @@ var schema = new Schema({
     Code: Number,
     Name: String,
     Direction: String,
-    Branch_offices:[Sucursales],
-    Menu:[Menu],
+    Location:[String],
+    Menu:[String]
 
 });
 
 
-module.exports = mongose.models('Restaurant',schema);
+module.exports = mongoose.models('Restaurant',schema);
