@@ -1,14 +1,11 @@
-import mongoose from 'mongoose';
- var Schema = mongoose.Schema;
+import mongoose from "mongoose";
 
+const Schema = mongoose.Schema;
 
-var schema = new Schema({
-    Name: String,
-   Amount_of_people:Number,
-    Reservation: {type:Date, default:Date.now},
-
-
+const schema = new Schema({
+  Name: String,
+  Amount_of_people: Number,
+  Reservation: { type: Date, default: Date.now }
 });
 
-
-module.exports = mongoose.model('Event',schema);
+module.exports = mongoose.model("Event", schema);

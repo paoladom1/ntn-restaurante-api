@@ -1,15 +1,13 @@
-import mongoose from 'mongoose';
- var Schema = mongoose.Schema;
+import mongoose from "mongoose";
 
+const Schema = mongoose.Schema;
 
-var schema = new Schema({
-    Code: Number,
-    Name: String,
-    Direction: String,
-    Location:[String],
-    Menu:[String]
-
+const schema = new Schema({
+  Code: Number,
+  Name: String,
+  Direction: String,
+  Location: [String],
+  Menu: [String]
 });
 
-
-module.exports = mongoose.model('Restaurant',schema);
+module.exports = mongoose.model("Restaurant", schema);
