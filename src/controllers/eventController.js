@@ -1,22 +1,23 @@
 import Event from "../models/event";
 
 module.exports.getId = (req, res) => {
-  Event.find({ Name: req.params.Name }, function(err, docs) {
+  Event.find({ name: req.params.name }, function(err, docs) {
     if (err) res.status(500).json(err);
     else res.status(200).json(docs);
   });
 };
 
 module.exports.createEvent = (req, res) => {
-  let insertEvent = new Event({
-    Name: req.body.Name,
-    Amount_of_people: req.body.Amount_of_people,
-    Reservation: req.body.Reservation
+  let newEvent = new Event({
+    name: req.body.name,
+    amount_of_people: req.body.amount_of_people,
+    reservation: req.body.reservation
   });
-  insertEvent
+
+  newEvent
     .save()
-    .then(newEvent => {
-      res.status(200).json(newEvent);
+    .then(event => {
+      res.status(200).json(event);
     })
     .catch(err => {
       res.status(500).json(err);
@@ -25,22 +26,22 @@ module.exports.createEvent = (req, res) => {
 
 module.exports.updateEvent = (req, res) => {
   Event.findByIdAndUpdate(
-    req.params.EventId,
+    req.params.id,
     req.body,
     { new: true },
-    (err, Event) => {
+    (err, event) => {
       if (err) return res.status(500).send(err);
-      return res.send(Event);
+      return res.send(event);
     }
   );
 };
 
 module.exports.deleteEvent = (req, res) => {
-  Event.findByIdAndRemove(req.params.EventId, (err, Event) => {
+  Event.findByIdAndRemove(req.params.id, (err, event) => {
     if (err) return res.status(500).send(err);
     const response = {
       msg: "Event successfully deleted",
-      id: Event._id
+      id: event._id
     };
     return res.status(200).send(response);
   });

@@ -3,11 +3,11 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-  Code: Number,
-  Name: String,
-  Direction: String,
-  Location: [String],
-  Menu: [String]
+  code: Number,
+  name: String,
+  direction: String,
+  location: [String],
+  menu: [String]
 });
 
 module.exports = mongoose.model("Restaurant", schema);

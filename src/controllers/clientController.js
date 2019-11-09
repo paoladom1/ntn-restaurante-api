@@ -1,7 +1,7 @@
 import Client from "../models/client";
 
 module.exports.getId = (req, res) => {
-  Client.find({ Name: req.params.Name }, function(err, docs) {
+  Client.find({ name: req.params.name }, function(err, docs) {
     if (err) res.status(500).json(err);
     else res.status(200).json(docs);
   });
@@ -15,15 +15,16 @@ module.exports.getClients = (req, res) => {
 };
 
 module.exports.createClient = (req, res) => {
-  let insertClient = new Client({
+  let newClient = new Client({
     name: req.body.name,
     email: req.body.email,
     dui: req.body.dui
   });
-  insertClient
+  
+  newClient
     .save()
-    .then(newclient => {
-      res.status(200).json(newclient);
+    .then(client => {
+      res.status(200).json(client);
     })
     .catch(err => {
       res.status(500).json(err);
@@ -32,7 +33,7 @@ module.exports.createClient = (req, res) => {
 
 module.exports.updateClient = (req, res) => {
   Client.findByIdAndUpdate(
-    req.params.clientId,
+    req.params.id,
     req.body,
     { new: true },
     (err, client) => {
@@ -43,7 +44,7 @@ module.exports.updateClient = (req, res) => {
 };
 
 module.exports.deleteClient = (req, res) => {
-  Client.findByIdAndRemove(req.params.clientId, (err, client) => {
+  Client.findByIdAndRemove(req.params.id, (err, client) => {
     if (err) return res.status(500).send(err);
     const response = {
       msg: "Client successfully deleted",
