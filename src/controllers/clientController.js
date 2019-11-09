@@ -1,4 +1,4 @@
-import Client from "../models/Client";
+import Client from "../models/client";
 
 module.exports.getId = (req, res) => {
   Client.find({ Name: req.params.Name }, function(err, docs) {
@@ -16,9 +16,9 @@ module.exports.getClients = (req, res) => {
 
 module.exports.createClient = (req, res) => {
   let insertClient = new Client({
-    Name: req.body.name,
-    Email: req.body.email,
-    DUI: req.body.dui
+    name: req.body.name,
+    email: req.body.email,
+    dui: req.body.dui
   });
   insertClient
     .save()

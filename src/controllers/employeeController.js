@@ -1,4 +1,4 @@
-import Employee from "../models/Employee";
+import Employee from "../models/employee";
 
 module.exports.getCode = (req, res) => {
   Employee.find({ Name: req.params.Name }, function(err, docs) {

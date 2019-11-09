@@ -1,4 +1,4 @@
-import Restaurant from "../models/Restaurant";
+import Restaurant from "../models/restaurant";
 
 module.exports.getCode = (req, res) => {
   Restaurant.find({ Name: req.params.Name }, function(err, docs) {
