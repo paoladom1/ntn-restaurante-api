@@ -5,4 +5,4 @@ restful api using express + mongoDB
 1. ```npm install```
 2. ```npm start```
 
-Copy .env.sample as .env and change variable values (if needed).
+Copy `.env.sample` as `.env` and change variable values (if needed).
