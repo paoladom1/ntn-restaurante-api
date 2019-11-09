@@ -1,24 +1,25 @@
 import Restaurant from "../models/restaurant";
 
 module.exports.getCode = (req, res) => {
-  Restaurant.find({ Name: req.params.Name }, function(err, docs) {
+  Restaurant.find({ name: req.params.name }, function(err, docs) {
     if (err) res.status(500).json(err);
     else res.status(200).json(docs);
   });
 };
 
 module.exports.createRestaurant = (req, res) => {
-  let insertRestaurant = new Restaurant({
-    Code: req.body.Code,
-    Name: req.body.Name,
-    Direction: req.body.Direction,
-    Location: req.body.Location,
-    Menu: req.body.Menu
+  let newRestaurant = new Restaurant({
+    code: req.body.code,
+    name: req.body.name,
+    direction: req.body.direction,
+    location: req.body.location,
+    menu: req.body.menu
   });
-  insertRestaurant
+
+  newRestaurant
     .save()
-    .then(newRestaurant => {
-      res.status(200).json(newRestaurant);
+    .then(restaurant => {
+      res.status(200).json(restaurant);
     })
     .catch(err => {
       res.status(500).json(err);
@@ -27,22 +28,22 @@ module.exports.createRestaurant = (req, res) => {
 
 module.exports.updateRestaurant = (req, res) => {
   Restaurant.findByCodeAndUpdate(
-    req.params.RestaurantCode,
+    req.params.code,
     req.body,
     { new: true },
-    (err, Restaurant) => {
+    (err, restaurant) => {
       if (err) return res.status(500).send(err);
-      return res.send(Restaurant);
+      return res.send(restaurant);
     }
   );
 };
 
 module.exports.deleteRestaurant = (req, res) => {
-  Restaurant.findByCodeAndRemove(req.params.RestaurantId, (err, Client) => {
+  Restaurant.findByCodeAndRemove(req.params.id, (err, restaurant) => {
     if (err) return res.status(500).send(err);
     const response = {
       msg: "Restaurant successfully deleted",
-      code: Restaurant._Code
+      code: restaurant._code
     };
     return res.status(200).send(response);
   });

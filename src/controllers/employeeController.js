@@ -1,22 +1,23 @@
 import Employee from "../models/employee";
 
 module.exports.getCode = (req, res) => {
-  Employee.find({ Name: req.params.Name }, function(err, docs) {
+  Employee.find({ name: req.params.name }, function(err, docs) {
     if (err) res.status(500).json(err);
     else res.status(200).json(docs);
   });
 };
 
 module.exports.createEmployee = (req, res) => {
-  let insertEmployee = new Employee({
-    Code: req.body.Code,
-    Name: req.body.Name,
-    Position: req.body.Position
+  let newEmployee = new Employee({
+    code: req.body.code,
+    name: req.body.name,
+    position: req.body.Position
   });
-  insertEmployee
+
+  newEmployee
     .save()
-    .then(newEmployee => {
-      res.status(200).json(newEmployee);
+    .then(employee => {
+      res.status(200).json(employee);
     })
     .catch(err => {
       res.status(500).json(err);
@@ -25,22 +26,22 @@ module.exports.createEmployee = (req, res) => {
 
 module.exports.updateEmployee = (req, res) => {
   Employee.findByCodeAndUpdate(
-    req.params.EmployeeCode,
+    req.params.employeeCode,
     req.body,
     { new: true },
-    (err, Employee) => {
+    (err, employee) => {
       if (err) return res.status(500).send(err);
-      return res.send(Employee);
+      return res.send(employee);
     }
   );
 };
 
 module.exports.deleteEmployee = (req, res) => {
-  Employee.findByCodeAndRemove(req.params.EmployeeCode, (err, Employee) => {
+  Employee.findByCodeAndRemove(req.params.employeeCode, (err, employee) => {
     if (err) return res.status(500).send(err);
     const response = {
       msg: "Employee successfully deleted",
-      code: Employee._Code
+      code: employee._code
     };
     return res.status(200).send(response);
   });
