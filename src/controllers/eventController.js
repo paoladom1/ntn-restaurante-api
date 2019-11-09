@@ -1,4 +1,4 @@
-import Event from "../models/Event";
+import Event from "../models/event";
 
 module.exports.getId = (req, res) => {
   Event.find({ Name: req.params.Name }, function(err, docs) {
