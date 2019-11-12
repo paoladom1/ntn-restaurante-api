@@ -5,8 +5,8 @@ import Food from "./food";
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
-  client: User,
-  employee: User,
+  client: User.schema,
+  employee: User.schema,
   products: [Food.schema],
   subtotal: Number,
   total: Number
