@@ -3,7 +3,7 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import { port } from "./config";
+import { PORT } from "./config";
 import routes from "./src/routes/index";
 
 mongoose
@@ -15,7 +15,7 @@ mongoose
     }
   )
   .then(() => {
-    console.log("Database");
+    console.log("Connected to DB");
   });
 
 mongoose.Promise = global.Promise;
@@ -28,8 +28,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api", routes);
 
 
-app.listen(port, () => {
-  console.log(`server running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`server running on port ${PORT}`);
 });
 
 module.exports = app;
