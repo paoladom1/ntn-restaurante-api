@@ -1,15 +1,14 @@
 import mongoose, { models } from "mongoose";
-import menu from "../models/menu";
-import location from "../models/location";
+import Menu from "../models/menu";
+import Location from "../models/location";
 
 const Schema = mongoose.Schema;
 
-const schema = new Schema({
-  code: Number,
+const RestaurantSchema = new Schema({
   name: String,
-  phone:String,
-  location: [location],
-  menu: [menu]
+  phone: String,
+  location: [Location.schema],
+  menu: [Menu.schema]
 });
 
-module.exports = mongoose.model("Restaurant", schema);
+module.exports = mongoose.model("Restaurant", RestaurantSchema);

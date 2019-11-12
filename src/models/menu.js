@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
+import Food from "./food";
 
 const Schema = mongoose.Schema;
 
-const schema = new Schema({
-    entry: String,
-    breakfast: String,
-    lounch:String,
-    dessert:String,
-    drinks: String,
-    price:String
+const MenuSchema = new Schema({
+  entry: [Food.schema],
+  breakfast: [Food.schema],
+  lunch: [Food.schema],
+  dessert: [Food.schema],
+  drinks: [Food.schema]
 });
 
-module.exports = mongoose.model("Menu", schema);
+module.exports = mongoose.model("Menu", MenuSchema);
