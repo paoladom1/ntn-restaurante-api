@@ -8,7 +8,7 @@ const schema = new Schema({
   email: String,
   dui: String,
   phone:String,
-  count:[count]
+  count:[count.schema]
 });
 
 module.exports = mongoose.model("Client", schema);

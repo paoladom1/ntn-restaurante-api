@@ -6,9 +6,9 @@ import menu from "../models/menu";
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-    client:client,
-    employee:employee,
-    food:[menu],
+    client:client.schema,
+    employee:employee.schema,
+    food:[menu.schema],
     subtotal:String,
     total:String
     

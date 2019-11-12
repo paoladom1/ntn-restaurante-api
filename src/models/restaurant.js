@@ -8,8 +8,8 @@ const schema = new Schema({
   code: Number,
   name: String,
   phone:String,
-  location: [location],
-  menu: [menu]
+  location: [location.schema],
+  menu: [menu.schema]
 });
 
 module.exports = mongoose.model("Restaurant", schema);

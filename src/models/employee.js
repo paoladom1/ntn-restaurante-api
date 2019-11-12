@@ -7,7 +7,7 @@ const schema = new Schema({
   code: Number,
   name: String,
   position: [String],
-  count:[count]
+  count:[count.schema]
 });
 
 module.exports = mongoose.model("Employee", schema);
