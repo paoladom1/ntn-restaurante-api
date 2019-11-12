@@ -18,7 +18,8 @@ module.exports.createClient = (req, res) => {
   let newClient = new Client({
     name: req.body.name,
     email: req.body.email,
-    dui: req.body.dui
+    dui: req.body.dui,
+    phone: req.body.phone
   });
   
   newClient
