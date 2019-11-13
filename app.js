@@ -3,12 +3,12 @@ import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import { PORT } from "./config";
+import { PORT, DB_URL, DB_NAME } from "./config";
 import routes from "./src/routes/index";
 
 mongoose
   .connect(
-    "mongodb+srv://Fran2333:puky28012008@cluster0-osbzz.mongodb.net/Restaurant",
+    `${DB_URL}/${DB_NAME}`,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true
@@ -16,6 +16,8 @@ mongoose
   )
   .then(() => {
     console.log("Connected to DB");
+  }).catch(e =>{
+    console.log(e);
   });
 
 mongoose.Promise = global.Promise;
