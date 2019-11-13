@@ -6,7 +6,8 @@ const RoleSchema = new Schema({
   role: {
     type: String,
     required: true,
-    enum: ["ADMIN", "CLIENT", "EMPLOYEE"]
+    enum: ["ADMIN", "CLIENT", "EMPLOYEE"],
+    default: "CLIENT"
   }
 });
 

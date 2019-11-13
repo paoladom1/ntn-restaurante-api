@@ -11,7 +11,8 @@ mongoose
     `${DB_URL}/${DB_NAME}`,
     {
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useCreateIndex: true
     }
   )
   .then(() => {
