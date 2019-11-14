@@ -20,7 +20,7 @@ module.exports.createLocation = (req, res) => {
     city: req.body.city,
     departament: req.body.departament
   });
-  
+
   newLocation
     .save()
     .then(Location => {
