@@ -4,8 +4,14 @@ const Schema = mongoose.Schema;
 
 const FoodSchema = new Schema({
     name: { type: String, required: true },
-    description: { type: String, required: true, minlength: 8, maxlength: 50 },
+    description: { type: String, required: true, minlength: 10, maxlength: 200 },
     price: { type: Number, required: true },
-})
+    category: {
+        type: String,
+        enum: ["BREAKFAST", "BEVERAGE", "ENTREES", "MAIN", "DESSERT", "SNACKS"],
+        default: "MAIN",
+        required: true
+    }
+});
 
-module.exports = mongoose.model("Food", FoodSchema)
+module.exports = mongoose.model("Food", FoodSchema);

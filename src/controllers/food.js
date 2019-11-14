@@ -1,7 +1,7 @@
 import Food from "../models/food";
 
 module.exports.getFood = (req, res) => {
-  const { filter } = req;
+  const { filter } = req.body;
 
   Food.find(filter, (err, docs) => {
     if (err)

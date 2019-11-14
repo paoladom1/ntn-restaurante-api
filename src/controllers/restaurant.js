@@ -1,50 +1,93 @@
 import Restaurant from "../models/restaurant";
+import Location from "../models/location";
+import Food from "../models/food";
 
-module.exports.getCode = (req, res) => {
-  Restaurant.find({ name: req.params.name }, function(err, docs) {
-    if (err) res.status(500).json(err);
-    else res.status(200).json(docs);
-  });
-};
+module.exports.getRestaurants = (req, res) => {
+    const { filter } = req.body;
 
-module.exports.createRestaurant = (req, res) => {
-  let newRestaurant = new Restaurant({
-    code: req.body.code,
-    name: req.body.name,
-    direction: req.body.direction,
-    location: req.body.location,
-    menu: req.body.menu
-  });
-
-  newRestaurant
-    .save()
-    .then(restaurant => {
-      res.status(200).json(restaurant);
-    })
-    .catch(err => {
-      res.status(500).json(err);
+    Restaurant.find(filter, function(err, restaurants) {
+        if (err)
+            res.status(500).json({
+                status: "failed",
+                message: "failed to retrieve restaurants",
+                data: null
+            });
+        else
+            res.status(200).json({
+                status: "success",
+                message: "restaurants retrieved",
+                data: restaurants
+            });
     });
 };
 
-module.exports.updateRestaurant = (req, res) => {
-  Restaurant.findByCodeAndUpdate(
-    req.params.code,
-    req.body,
-    { new: true },
-    (err, restaurant) => {
-      if (err) return res.status(500).send(err);
-      return res.send(restaurant);
-    }
-  );
+module.exports.createRestaurant = (req, res) => {
+    const { name, phone, locations, menu } = req.body;
+
+    Location.find(
+        {
+            _id: { $in: locations }
+        },
+        (error, locationsList) => {
+            console.log('locations: ', locationsList);
+            if (error)
+                return res.status(500).json({
+                    status: "failed",
+                    message: "error ocurred",
+                    data: null
+                });
+
+            Food.find({ _id: { $in: menu } }, (error, foodList) => {
+                console.log("food: ", foodList);
+                if (error)
+                    return res.status(500).json({
+                        status: "failed",
+                        message: "error ocurred",
+                        data: null
+                    });
+
+                const restaurant = new Restaurant({
+                    name,
+                    phone,
+                });
+                
+                locationsList.map(location => restaurant.locations.push(location));
+                foodList.map(food => restaurant.menu.push(food));
+
+                restaurant.save().then(restaurant => {
+                    return res.status(201).json({
+                        status: "success",
+                        message: "restaurant created successfully",
+                        data: restaurant
+                    });
+                });
+            });
+        }
+    );
 };
 
-module.exports.deleteRestaurant = (req, res) => {
-  Restaurant.findByCodeAndRemove(req.params.id, (err, restaurant) => {
-    if (err) return res.status(500).send(err);
-    const response = {
-      msg: "Restaurant successfully deleted",
-      code: restaurant._code
-    };
-    return res.status(200).send(response);
-  });
+module.exports.updateRestaurant = (req, res) => {
+    const { filter, update } = req.body;
+    Restaurant.findByCodeAndUpdate(
+        filter,
+        update,
+        { new: true },
+        (err, restaurant) => {
+            if (err) return res.status(500).send(err);
+            return res.send(restaurant);
+        }
+    );
+};
+
+module.exports.deleteRestaurants = (req, res) => {
+    const { filter } = req.body;
+
+    Restaurant.deleteMany(filter, (err, restaurants) => {
+        if (err) return res.status(500).send(err);
+        const response = {
+            msg: "Restaurant successfully deleted",
+            code: restaurants
+        };
+        return res.status(200).send(response);
+    });
 };
