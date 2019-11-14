@@ -80,7 +80,7 @@ module.exports.authenticate = (req, res, next) => {
                 data: null
               });
           else {
-            const token = jwt.sign({ id: user._id }, JWT_KEY, {
+            const token = jwt.sign({ _id: user._id }, JWT_KEY, {
               expiresIn: "1h"
             });
 

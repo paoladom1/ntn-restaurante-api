@@ -6,7 +6,7 @@ import userController from "./../controllers/user";
 const router = express.Router();
 
 router.get("/", userController.getUsers);
-router.delete("/", auth, userController.deleteAllUsers);
+router.delete("/", auth(["ADMIN"]), userController.deleteAllUsers);
 router.post("/signin", userController.authenticate);
 router.post("/signup", userController.createUser)
 
