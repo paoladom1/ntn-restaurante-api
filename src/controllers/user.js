@@ -1,6 +1,6 @@
 import User from "../models/user";
 import { JWT_KEY } from "../../config";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 
 module.exports.getUsers = (req, res) => {
@@ -10,14 +10,12 @@ module.exports.getUsers = (req, res) => {
     if (err)
       res.status(400).json({ status: "failed", message: err, data: null });
     else
-      res
-        .status(200)
-        .json({
-          status: "success", 
-          count: docs.length,
-          message: `${docs.length} users fetched`,
-          data: docs
-        });
+      res.status(200).json({
+        status: "success",
+        count: docs.length,
+        message: `${docs.length} users fetched`,
+        data: docs
+      });
   });
 };
 
@@ -26,11 +24,11 @@ module.exports.createUser = (req, res) => {
 
   try {
     const user = new User({
-      name: name,
-      dui: dui,
-      email: email,
-      password: password,
-      roles: roles
+      name,
+      dui,
+      email,
+      password,
+      roles
     });
 
     user
@@ -44,7 +42,11 @@ module.exports.createUser = (req, res) => {
         console.log(error);
         res
           .status(400)
-          .json({ status: "failed", message: "couldnt create user", data: null });
+          .json({
+            status: "failed",
+            message: "couldnt create user",
+            data: null
+          });
       });
   } catch (error) {
     console.log(error);
@@ -56,23 +58,43 @@ module.exports.authenticate = (req, res, next) => {
   //Login a registered user
   try {
     const { email, password } = req.body;
-    
+
     User.findOne({ email }, (err, user) => {
       if (err) next(err);
       else {
-        if(!user) res.status(400).json({ status: "failed", message: "email not found on database", data: null })
+        if (!user)
+          res
+            .status(400)
+            .json({
+              status: "failed",
+              message: "email not found on database",
+              data: null
+            });
         bcrypt.compare(password, user.password, (_, result) => {
-          if (!result) res.status(400).json({ status: "failed", message: "password incorrect", data: null })
+          if (!result)
+            res
+              .status(400)
+              .json({
+                status: "failed",
+                message: "password incorrect",
+                data: null
+              });
           else {
             const token = jwt.sign({ id: user._id }, JWT_KEY, {
               expiresIn: "1h"
             });
 
-            res.status(200).json({ status: "success", message: "user authenticated", data: { user, token }});
+            res
+              .status(200)
+              .json({
+                status: "success",
+                message: "user authenticated",
+                data: { user, token }
+              });
           }
-        })
+        });
       }
-    })
+    });
   } catch (error) {
     res.status(400).json(error);
   }

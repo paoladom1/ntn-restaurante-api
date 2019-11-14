@@ -5,11 +5,11 @@ import Food from "./food";
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
-  client: User.schema,
-  employee: User.schema,
-  products: [Food.schema],
-  subtotal: Number,
-  total: Number
+  client: { type: User.schema, required: true },
+  employee: { type: User.schema, required: true },
+  products: { type: [Food.schema], required: true },
+  subtotal: { type: Number, required: true },
+  total: { type: Number, required: true }
 });
 
 module.exports = mongoose.model("Order", OrderSchema);
