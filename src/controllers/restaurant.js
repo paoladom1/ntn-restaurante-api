@@ -68,7 +68,7 @@ module.exports.createRestaurant = (req, res) => {
 
 module.exports.updateRestaurant = (req, res) => {
     const { filter, update } = req.body;
-    Restaurant.findByCodeAndUpdate(
+    Restaurant.update(
         filter,
         update,
         { new: true },
@@ -77,6 +77,24 @@ module.exports.updateRestaurant = (req, res) => {
             return res.send(restaurant);
         }
     );
+};
+
+module.exports.deleteRestaurant = (_, res) => {
+    const { id } = req.params;
+
+    Restaurant.deleteOne({ _id: id }, (err, restaurants) => {
+        if (err) return res.status(500).json({
+            status: "error",
+            message: "ha ocurrido un error",
+            data: null
+        });
+
+        return res.status(200).json({
+            status: "success",
+            message: "restaurante eliminado",
+            data: null
+        });
+    });
 };
 
 module.exports.deleteRestaurants = (req, res) => {

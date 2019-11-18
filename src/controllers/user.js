@@ -37,20 +37,18 @@ module.exports.createUser = (req, res) => {
 
         user.save()
             .then(user => {
-                return res
-                    .status(201)
-                    .json({
-                        status: "success",
-                        message: "user created",
-                        data: { user }
-                    });
+                return res.status(201).json({
+                    status: "success",
+                    message: "user created",
+                    data: { user }
+                });
             })
             .catch(error => {
                 console.log(error);
                 return res.status(400).json({
                     status: "failed",
-                    message: "couldnt create user",
-                    data: null
+                    message: error._message,
+                    data: error
                 });
             });
     } catch (error) {
@@ -99,15 +97,46 @@ module.exports.authenticate = (req, res, next) => {
     }
 };
 
+module.exports.updateUser = (req, res) => {
+    const { id } = req.params;
+
+    User.update({ _id: id }, req.body, error => {
+        if (error)
+            return res.status(500).json({
+                status: "error",
+                message: "Ha ocurrido un error",
+                data: null
+            });
+
+        return res.status(200).json({
+            status: "success",
+            message: "Deleted user",
+            data: null
+        });
+    });
+};
+
+module.exports.deleteUser = (req, res) => {
+    const { id } = req.params;
+
+    User.deleteOne({ _id: id }, error => {
+        console.log(error);
+
+        return res.status(200).json({
+            status: "success",
+            message: "Deleted user",
+            data: null
+        });
+    });
+};
+
 module.exports.deleteAllUsers = (_, res) => {
     User.deleteMany({}, error => {
         console.log(error);
-        return res
-            .status(200)
-            .json({
-                status: "success",
-                message: "Deleted all users",
-                data: null
-            });
+        return res.status(200).json({
+            status: "success",
+            message: "Deleted all users",
+            data: null
+        });
     });
 };

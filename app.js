@@ -29,6 +29,13 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use("/api", routes);
+app.use((req, res) => {
+  res.status(404).json({
+    status: "error",
+    message: "Ruta no valida",
+    data: null
+  });
+})
 
 
 app.listen(PORT, () => {

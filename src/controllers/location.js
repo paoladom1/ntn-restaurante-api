@@ -15,12 +15,13 @@ module.exports.getLocations = (req, res) => {
 };
 
 module.exports.createLocation = (req, res) => {
-    const { address, city, department } = req.body;
+    const { address, city, department, employees } = req.body;
 
     let newLocation = new Location({
         address: address,
         city: city,
-        department: department
+        department: department,
+        employees: employees,
     });
 
     newLocation
@@ -28,34 +29,55 @@ module.exports.createLocation = (req, res) => {
         .then(location => {
             res.status(200).json({
                 status: "success",
-                message: "location created",
+                message: "sucursal creada",
                 data: { location }
             });
         })
         .catch(err => {
-            res.status(500).json(err);
+            res.status(500).json({
+                status: "error",
+                message: "error inesperado",
+                data: null
+            });
         });
 };
 
 module.exports.updateLocation = (req, res) => {
-    Location.findByIdAndUpdate(
-        req.params.id,
-        req.body,
+    const { filter, update } = req.body;
+
+    Location.update(
+        filter,
+        update,
         { new: true },
         (err, location) => {
-            if (err) return res.status(500).send(err);
-            return res.send(location);
+            if (err) return res.status(500).json({
+                status: "error",
+                message: "error inesperado",
+                data: null
+            });
+            return res.status(200).json({
+                status: "success",
+                message: "sucursal actualizada",
+                data: { location }
+            });
         }
     );
 };
 
 module.exports.deleteLocation = (req, res) => {
-    Location.findByIdAndRemove(req.params.id, (err, Location) => {
-        if (err) return res.status(500).send(err);
-        const response = {
-            msg: "Location successfully deleted",
-            id: Location._id
-        };
-        return res.status(200).send(response);
+    const { filter } = req.body;
+    
+    Location.deleteOne(filter, (err, location) => {
+        if (err) return res.status(500).json({
+            status: "error",
+            message: "ha ocurrido un error",
+            data: null
+        });
+
+        return res.status(200).json({
+            status: "success",
+            message: "location deleted",
+            data: { location }
+        });
     });
 };

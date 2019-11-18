@@ -1,12 +1,14 @@
 import express from "express";
 
+import auth from "../middlewares/authorization";
 import foodController from "../controllers/food";
 
 const router = express.Router();
 
 router.get("/", foodController.getFood);
 router.post("/", foodController.createFood);
-router.put("/", foodController.updateFood)
-router.delete("/", foodController.deleteFood);
+router.put("/", foodController.updateManyFood);
+router.delete("/:id", auth(["ADMIN"]), foodController.deleteOneFood);
+router.delete("/", auth(["ADMIN"]), foodController.deleteManyFood);
 
 module.exports = router;

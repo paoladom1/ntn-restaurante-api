@@ -14,4 +14,5 @@ router.use("/events", eventRoutes);
 router.use("/locations", locationRoutes);
 router.use("/restaurants", restaurantRoutes);
 
+
 module.exports = router;
