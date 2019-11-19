@@ -5,7 +5,7 @@ import foodController from "../controllers/food";
 
 const router = express.Router();
 
-router.get("/", foodController.getFood);
+router.get("/:category", foodController.getFoodByCategory);
 router.post("/", foodController.createFood);
 router.put("/", foodController.updateManyFood);
 router.delete("/:id", auth(["ADMIN"]), foodController.deleteOneFood);

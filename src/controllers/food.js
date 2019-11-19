@@ -1,9 +1,9 @@
 import Food from "../models/food";
 
-module.exports.getFood = (req, res) => {
-    const { filter } = req.body;
+module.exports.getFoodByCategory = (req, res) => {
+    const { category } = req.params;
 
-    Food.find(filter, (err, docs) => {
+    Food.find({ category: category.toUpperCase() }, (err, docs) => {
         if (err)
             res.status(400).json({
                 status: "failed",
