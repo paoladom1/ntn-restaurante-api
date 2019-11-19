@@ -8,13 +8,11 @@ module.exports.getOrders = (req, res) => {
                 .status(500)
                 .json({ status: "error", message: err._message, data: err });
         else
-            return res
-                .status(200)
-                .json({
-                    status: "success",
-                    message: "orders retrieved",
-                    data: docs
-                });
+            return res.status(200).json({
+                status: "success",
+                message: "orders retrieved",
+                data: docs
+            });
     });
 };
 
@@ -40,16 +38,24 @@ module.exports.getOrderById = (req, res) => {
 module.exports.createOrder = (req, res) => {
     const { status, products, subtotal, total } = req.body;
 
-    Food.find({ _id: { $in: products } }, (err, foodList) => {
+    Food.find({ _id: { $in: products } }, (err, docs) => {
         if (err)
             return res.status(500).json({
                 status: "error",
                 message: err._message,
                 data: err
             });
+
+        const foods = products.map(product => {
+            console.log(product);
+            docs.find(doc => doc._id === product);
+        });
+
+        console.log(foods);
+
         const newOrder = new Order({
             status,
-            products: foodList,
+            products: foods,
             subtotal,
             total
         });

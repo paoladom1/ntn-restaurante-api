@@ -28,7 +28,7 @@ module.exports.getUserById = (req, res) => {
 module.exports.getUserOrders = (req, res) => {
     const { id } = req.params;
 
-    User.findById(id, 'orders', (err, orders) => {
+    User.findById(id, "orders", (err, orders) => {
         console.log(orders);
         if (err)
             return res.status(500).json({
@@ -58,7 +58,7 @@ module.exports.createUserOrder = (req, res) => {
             });
 
         //console.log(`user: ${user}`);
-        Food.find({ _id: { $in: products } }, (error, foodList) => {
+        Food.find({ _id: { $in: products } }, (error, docs) => {
             if (error)
                 return res.status(500).json({
                     status: "error",
@@ -67,8 +67,14 @@ module.exports.createUserOrder = (req, res) => {
                 });
 
             //console.log(`foodList: ${foodList}`);
+            const foodList = Array.isArray(docs) ? docs : [docs];
+
+            const foods = products.map(product =>
+                foodList.find(doc => product === doc._id.toString())
+            );
+
             const newOrder = new Order({
-                products: Array.isArray(foodList) ? foodList : [foodList]
+                products: foods
             });
 
             newOrder
