@@ -28,8 +28,7 @@ module.exports.getUserById = (req, res) => {
 module.exports.getUserOrders = (req, res) => {
     const { id } = req.params;
 
-    User.findById(id, "orders", (err, orders) => {
-        console.log(orders);
+    User.findById(id, "orders", (err, user) => {
         if (err)
             return res.status(500).json({
                 status: "failed",
@@ -37,10 +36,12 @@ module.exports.getUserOrders = (req, res) => {
                 data: err
             });
 
+        const { orders } = user;
+
         return res.status(200).json({
             status: "success",
             message: "user orders retrieved",
-            data: { orders }
+            data: { orders: Array.isArray(orders) ? orders : [orders] }
         });
     });
 };
