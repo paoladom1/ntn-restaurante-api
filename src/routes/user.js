@@ -9,15 +9,26 @@ const router = express.Router();
 router.post("/signin", userController.authenticate);
 router.post("/signup", userController.createUser);
 
-router.get("/", userController.getUsers);
-router.get("/:id", userController.getUserById);
-router.get("/:id/orders", userController.getUserOrders);
+router.get("/", auth(["ADMIN", "EMPLOYEE", "CLIENT"]), userController.getUsers);
+router.get(
+    "/:id",
+    auth(["ADMIN", "EMPLOYEE", "CLIENT"]),
+    userController.getUserById
+);
+router.get(
+    "/:id/orders",
+    auth(["ADMIN", "EMPLOYEE", "CLIENT"]),
+    userController.getUserOrders
+);
 
-router.post("/:id/orders", userController.createUserOrder);
+router.post(
+    "/:id/orders",
+    auth(["ADMIN", "EMPLOYEE", "CLIENT"]),
+    userController.createUserOrder
+);
+router.put("/:id", auth(["ADMIN"]), userController.updateUser);
 
-router.put("/:id", auth(["ADMIN"]), userController.updateUser)
-
-router.delete("/", userController.deleteAllUsers);
-router.delete("/:id", userController.deleteUser);
+router.delete("/", auth(["ADMIN"]), userController.deleteAllUsers);
+router.delete("/:id", auth(["ADMIN"]), userController.deleteUser);
 
 module.exports = router;
