@@ -9,8 +9,8 @@ module.exports = allowedRoles => (req, res, next) => {
             : null;
         if (token === null)
             return res.status(400).json({
-                status: "failed",
-                message: "No token provided on headers",
+                status: "unauthenticated",
+                message: "No se agrego el token de autenticacion en la peticion",
                 data: null
             });
 
@@ -21,14 +21,14 @@ module.exports = allowedRoles => (req, res, next) => {
             console.log("user: ", user);
             if (err)
                 res.status(500).json({
-                    status: "failed",
+                    status: "not found",
                     message: "error inesperado",
                     data: null
                 });
             if (!user)
                 return res.status(403).json({
-                    status: "failed",
-                    message: "token no valido para usuario",
+                    status: "expired",
+                    message: "token expirado valido para usuario",
                     data: null
                 });
 
