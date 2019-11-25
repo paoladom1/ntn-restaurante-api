@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import Order from "../models/order";
+import Event from "../models/event";
 import { JWT_KEY } from "../../config";
 
 module.exports.getMyOrders = (req, res) => {
@@ -27,7 +28,6 @@ module.exports.getMyOrders = (req, res) => {
                         message: error,
                         data: error
                     });
-                
 
                 return res.status(200).json({
                     status: "success",
@@ -91,5 +91,87 @@ module.exports.createMyOrder = (req, res) => {
             message: error,
             data: error
         });
+    }
+};
+
+module.exports.createMyEvent = (req, res) => {
+    const { phone, amount_of_people, date } = req.body;
+
+    try {
+        const token = req.header("Authorization")
+            ? req.header("Authorization").replace("Bearer ", "")
+            : null;
+        if (token === null)
+            return res.status(400).json({
+                status: "unauthenticated",
+                message:
+                    "No se agrego el token de autenticacion en la peticion",
+                data: null
+            });
+
+        const data = jwt.verify(token, JWT_KEY);
+
+        const event = new Event({
+            client: data._id,
+            phone,
+            amount_of_people,
+            date
+        });
+
+        event
+            .save()
+            .then(event => {
+                res.status(201).json({
+                    status: "success",
+                    message: "event created",
+                    data: { event }
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                res.status(400).json({
+                    status: "failed",
+                    message: "couldnt create event",
+                    data: null
+                });
+            });
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: error });
+    }
+};
+
+module.exports.findMyEvents = (req, res) => {
+    try {
+        const token = req.header("Authorization")
+            ? req.header("Authorization").replace("Bearer ", "")
+            : null;
+        if (token === null)
+            return res.status(400).json({
+                status: "unauthenticated",
+                message:
+                    "No se agrego el token de autenticacion en la peticion",
+                data: null
+            });
+
+        const data = jwt.verify(token, JWT_KEY);
+
+        Event.find({ client: data._id }, function(err, docs) {
+            if (err)
+                return res.status.json({
+                    status: "failed",
+                    message: err,
+                    data: null
+                });
+            else
+                return res.status(200).json({
+                    status: "success",
+                    message: "events fetched",
+                    data: { events: docs }
+                });
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: error });
     }
 };

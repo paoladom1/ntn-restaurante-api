@@ -31,7 +31,7 @@ module.exports.find = (_, res) => {
             return res.status(200).json({
                 status: "success",
                 message: "events fetched",
-                data: docs
+                data: { events: docs }
             });
     });
 };
