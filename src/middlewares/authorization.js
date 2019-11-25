@@ -15,10 +15,8 @@ module.exports = allowedRoles => (req, res, next) => {
             });
 
         const data = jwt.verify(token, JWT_KEY);
-        console.log(data);
 
         User.findOne({ _id: data._id }, (err, user) => {
-            console.log("user: ", user);
             if (err)
                 res.status(500).json({
                     status: "not found",
@@ -32,7 +30,6 @@ module.exports = allowedRoles => (req, res, next) => {
                     data: null
                 });
 
-            console.log(user);
             if (allowedRoles)
                 if (
                     !user.roles.every(role => allowedRoles.indexOf(role) >= 0)
