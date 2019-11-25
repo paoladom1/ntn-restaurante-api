@@ -6,31 +6,37 @@ import Order from "../models/order";
 
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-    name: { type: String, required: true, trim: true },
-    dui: { type: String, unique: true },
-    email: {
-        type: String,
-        required: true,
-        lowercase: true,
-        unique: true,
-        validate: value => {
-            if (!validator.isEmail(value)) throw new Error("email invalido");
+const UserSchema = new Schema(
+    {
+        name: { type: String, required: true, trim: true },
+        dui: { type: String, unique: true },
+        email: {
+            type: String,
+            required: true,
+            lowercase: true,
+            unique: true,
+            validate: value => {
+                if (!validator.isEmail(value))
+                    throw new Error("email invalido");
+            }
+        },
+        password: { type: String, required: true },
+        roles: {
+            type: [
+                {
+                    type: String,
+                    required: true,
+                    enum: ["ADMIN", "EMPLOYEE", "CLIENT"],
+                    default: "CLIENT"
+                }
+            ],
+            default: ["CLIENT"]
         }
     },
-    password: { type: String, required: true },
-    roles: {
-        type: [
-            {
-                type: String,
-                required: true,
-                enum: ["ADMIN", "EMPLOYEE", "CLIENT"],
-                default: "CLIENT"
-            }
-        ],
-        default: ["CLIENT"]
+    {
+        timestamps: true
     }
-});
+);
 
 UserSchema.pre("save", function(next) {
     const user = this;
@@ -38,20 +44,20 @@ UserSchema.pre("save", function(next) {
     if (user.isModified("password")) {
         bcrypt.hash(user.password, 8, (error, hash) => {
             if (error) {
-              throw new Error(error);
+                throw new Error(error);
             } else {
                 user.password = hash;
                 next();
             }
         });
     } else {
-      next();
+        next();
     }
 });
 
 UserSchema.post("deleteOne", doc => {
-  console.log(`user: ${doc.orders}`);
-  Order.remove({ _id: { $in: doc.orders } });
+    console.log(`user: ${doc.orders}`);
+    Order.remove({ _id: { $in: doc.orders } });
 });
 
 const User = mongoose.model("User", UserSchema);
