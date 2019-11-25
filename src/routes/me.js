@@ -1,20 +1,20 @@
 import express from "express";
 import auth from "../middlewares/authorization";
 
-import userController from "./../controllers/user";
+import meController from "./../controllers/me";
 
 const router = express.Router();
 
 router.get(
     "/orders",
     auth(["CLIENT"]),
-    userController.getUserOrders
+    meController.getMyOrders
 );
 
 router.post(
     "/orders",
     auth(["CLIENT"]),
-    userController.createUserOrder
+    meController.createMyOrder
 );
 
 module.exports = router;
