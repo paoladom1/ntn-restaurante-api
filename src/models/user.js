@@ -29,8 +29,7 @@ const UserSchema = new Schema({
             }
         ],
         default: ["CLIENT"]
-    },
-    orders: { type: [Order.schema] }
+    }
 });
 
 UserSchema.pre("save", function(next) {

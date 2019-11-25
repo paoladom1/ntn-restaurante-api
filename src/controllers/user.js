@@ -26,7 +26,6 @@ module.exports.getUserById = (req, res) => {
 };
 
 module.exports.getUserOrders = (req, res) => {
-    
     const { id } = req.params;
 
     User.findById(id, "orders", (err, user) => {

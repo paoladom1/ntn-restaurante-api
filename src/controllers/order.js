@@ -36,7 +36,7 @@ module.exports.getOrderById = (req, res) => {
 };
 
 module.exports.createOrder = (req, res) => {
-    const { status, products, subtotal, total } = req.body;
+    const { client, status, products, subtotal, total } = req.body;
 
     Food.find({ _id: { $in: products } }, (err, docs) => {
         if (err)
@@ -54,6 +54,7 @@ module.exports.createOrder = (req, res) => {
         console.log(foods);
 
         const newOrder = new Order({
+            client,
             status,
             products: foods,
             subtotal,

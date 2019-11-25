@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 import Food from "./food";
-import User from "./user";
 
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
+    client: { type: Schema.Types.ObjectId, ref: "User", required: true },
     status: {
         type: String,
         required: true,
-        enum: ["IN PROGRESS", "DELIVERED", "CANCELED"],
+        enum: ["IN PROGRESS", "ACCEPTED", "DELIVERED"],
         default: "IN PROGRESS"
     },
     date: { type: Date, default: Date.now() },

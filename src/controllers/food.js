@@ -111,7 +111,13 @@ module.exports.deleteOneFood = (req, res) => {
     const { id } = req.params;
 
     Food.deleteOne({ _id: id }, error => {
-        res.status(200).json({
+        if (error)
+            return res.status(400).json({
+                status: "failed",
+                message: "there was an error",
+                data: null
+            });
+        return res.status(200).json({
             status: "success",
             message: "Deleted food",
             data: null
@@ -123,7 +129,13 @@ module.exports.deleteManyFood = (req, res) => {
     const { filter } = req.body;
 
     Food.deleteMany(filter, error => {
-        res.status(200).json({
+        if (error)
+            return res.status(400).json({
+                status: "failed",
+                message: error,
+                data: null
+            });
+        return res.status(200).json({
             status: "success",
             message: "Deleted food",
             data: null

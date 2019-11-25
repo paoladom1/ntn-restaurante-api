@@ -1,27 +1,25 @@
 import Location from "../models/location";
 
-module.exports.getLocations = (req, res) => {
-    const { filter } = req.body;
-
-    Location.find(filter, function(err, docs) {
+module.exports.getLocations = (_, res) => {
+    Location.find({}, function(err, docs) {
         if (err) res.status(500).json(err);
         else
             res.status(200).json({
                 status: "success",
                 message: "locations found",
-                data: docs
+                data: {locations: docs}
             });
     });
 };
 
 module.exports.createLocation = (req, res) => {
-    const { address, city, department, employees } = req.body;
+    const { address, city, department, phone } = req.body;
 
     let newLocation = new Location({
         address: address,
         city: city,
         department: department,
-        employees: employees,
+        phone: phone,
     });
 
     newLocation
