@@ -156,20 +156,22 @@ module.exports.findMyEvents = (req, res) => {
 
         const data = jwt.verify(token, JWT_KEY);
 
-        Event.find({ client: data._id }, function(err, docs) {
-            if (err)
-                return res.status.json({
-                    status: "failed",
-                    message: err,
-                    data: null
-                });
-            else
-                return res.status(200).json({
-                    status: "success",
-                    message: "events fetched",
-                    data: { events: docs }
-                });
-        });
+        Event.find({ client: data._id })
+            .populate('client', 'name')
+            .exec((err, events) => {
+                if (err)
+                    return res.status.json({
+                        status: "failed",
+                        message: err,
+                        data: null
+                    });
+                else
+                    return res.status(200).json({
+                        status: "success",
+                        message: "events fetched",
+                        data: { events }
+                    });
+            });
     } catch (error) {
         console.log(error);
         res.status(400).json({ error: error });
