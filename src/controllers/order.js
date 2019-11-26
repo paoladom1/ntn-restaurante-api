@@ -2,18 +2,22 @@ import Order from "../models/order";
 import Food from "../models/food";
 
 module.exports.getOrders = (req, res) => {
-    Order.find({}, function(err, docs) {
-        if (err)
-            return res
-                .status(500)
-                .json({ status: "error", message: err._message, data: err });
-        else
-            return res.status(200).json({
-                status: "success",
-                message: "orders retrieved",
-                data: docs
-            });
-    });
+    Order.find({})
+        .populate("client products")
+        .exec(function(err, orders) {
+            if (err)
+                return res.status(500).json({
+                    status: "error",
+                    message: err._message,
+                    data: err
+                });
+            else
+                return res.status(200).json({
+                    status: "success",
+                    message: "orders retrieved",
+                    data: { orders }
+                });
+        });
 };
 
 module.exports.getOrderById = (req, res) => {
@@ -81,15 +85,32 @@ module.exports.createOrder = (req, res) => {
 };
 
 module.exports.updateOrder = (req, res) => {
-    Order.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        { new: true },
-        (err, Order) => {
-            if (err) return res.status(500).send(err);
-            return res.send(Order);
-        }
-    );
+    Order.findById(req.params.id, (err, order) => {
+        if (err)
+            return res.status(500).json({
+                status: "error",
+                message: err,
+                data: null
+            });
+
+        order.status = req.body.status;
+        order
+            .save()
+            .then(order =>
+                res.status(200).json({
+                    status: "success",
+                    message: "orden actualizada",
+                    data: { order }
+                })
+            )
+            .catch(error =>
+                res.status(500).json({
+                    status: "error",
+                    message: error,
+                    data: error
+                })
+            );
+    });
 };
 
 module.exports.deleteOrders = (req, res) => {

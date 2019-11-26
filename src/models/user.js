@@ -3,6 +3,7 @@ import validator from "validator";
 import bcrypt from "bcrypt";
 
 import Order from "../models/order";
+import { isRegExp } from "util";
 
 const Schema = mongoose.Schema;
 
@@ -55,9 +56,11 @@ UserSchema.pre("save", function(next) {
     }
 });
 
-UserSchema.post("deleteOne", doc => {
-    console.log(`user: ${doc.orders}`);
-    Order.remove({ _id: { $in: doc.orders } });
+UserSchema.post("deleteOne", (doc, next) => {
+    Order.deleteMany({ client: doc._id }, error => {
+        if (error) next(error);
+        next();
+    });
 });
 
 const User = mongoose.model("User", UserSchema);

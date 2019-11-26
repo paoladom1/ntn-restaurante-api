@@ -12,6 +12,7 @@ router.post(
     auth(["ADMIN", "EMPLOYEE", "CLIENT"]),
     orderController.createOrder
 );
+router.put("/:id", auth(["ADMIN", "EMPLOYEE"]), orderController.updateOrder);
 router.delete("/", auth(["ADMIN", "EMPLOYEE"]), orderController.deleteOrders);
 
 module.exports = router;
