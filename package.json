@@ -1,51 +1,53 @@
 {
-  "name": "ntn-restaurante-api",
-  "version": "1.0.0",
-  "description": "restful api using express and mongoDB",
-  "main": "index.js",
-  "scripts": {
-    "start": "npm run prod",
-    "server": "babel-node ./src/app.js",
-    "server:prod": "node ./dist/app.js",
-    "dev": "nodemon ./src/app.js --exec babel-node --",
-    "build": "babel ./src --out-dir dist",
-    "prod": "NODE_ENV=production npm run clean && npm run build && npm run server:prod",
-    "clean": "rimraf dist"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/paoladom1/ntn-restaurante-api.git"
-  },
-  "keywords": [
-    "nodejs",
-    "express",
-    "mongodb",
-    "rest"
-  ],
-  "author": "Paola Dominguez",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/paoladom1/ntn-restaurante-api/issues"
-  },
-  "homepage": "https://github.com/paoladom1/ntn-restaurante-api#readme",
-  "dependencies": {
-    "@babel/cli": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
-    "bcrypt": "^3.0.6",
-    "body-parser": "^1.19.0",
-    "cors": "^2.8.5",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "moment": "^2.24.0",
-    "mongoose": "^5.7.8",
-    "prettier": "^1.19.1",
-    "rimraf": "^3.0.0",
-    "validator": "^12.0.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/node": "^7.7.4",
-    "nodemon": "^1.19.4"
-  }
+    "name": "ntn-restaurante-api",
+    "version": "1.0.0",
+    "description": "restful api using express and mongoDB",
+    "main": "index.js",
+    "scripts": {
+        "start": "npm run prod",
+        "server": "babel-node ./src/app.js",
+        "server:prod": "node ./dist/app.js",
+        "dev": "nodemon ./src/app.js --exec babel-node --",
+        "build": "babel ./src --out-dir dist",
+        "prod": "NODE_ENV=production npm run clean && npm run build && npm run server:prod",
+        "clean": "rimraf dist"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/paoladom1/ntn-restaurante-api.git"
+    },
+    "keywords": [
+        "nodejs",
+        "express",
+        "mongodb",
+        "rest"
+    ],
+    "author": "Paola Dominguez",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/paoladom1/ntn-restaurante-api/issues"
+    },
+    "homepage": "https://github.com/paoladom1/ntn-restaurante-api#readme",
+    "dependencies": {
+        "@babel/cli": "^7.7.4",
+        "@babel/core": "^7.7.4",
+        "@babel/node": "^7.7.4",
+        "@babel/preset-env": "^7.7.4",
+        "bcrypt": "^3.0.6",
+        "body-parser": "^1.19.0",
+        "cors": "^2.8.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "jsonwebtoken": "^8.5.1",
+        "moment": "^2.24.0",
+        "mongoose": "^5.7.8",
+        "prettier": "^1.19.1",
+        "rimraf": "^3.0.0",
+        "validator": "^12.0.0"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.7.4",
+        "@babel/node": "^7.7.4",
+        "nodemon": "^1.19.4"
+    }
 }
