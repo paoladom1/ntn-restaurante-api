@@ -1,31 +1,31 @@
-import mongoose from "mongoose";
-import Food from "./food";
+import mongoose from 'mongoose';
+import Food from './food';
 
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema(
     {
-        client: { type: Schema.Types.ObjectId, ref: "User", required: true },
+        client: { type: Schema.Types.ObjectId, ref: 'User', required: true },
         status: {
             type: String,
             required: true,
-            enum: ["IN PROGRESS", "ACCEPTED", "DELIVERED", "CANCELED"],
-            default: "IN PROGRESS"
+            enum: ['IN PROGRESS', 'ACCEPTED', 'DELIVERED', 'CANCELED'],
+            default: 'IN PROGRESS',
         },
         date: { type: Date, default: Date.now() },
         products: {
-            type: [{ type: Schema.Types.ObjectId, ref: "Food" }],
-            required: true
+            type: [{ type: Schema.Types.ObjectId, ref: 'Food' }],
+            required: true,
         },
         subtotal: { type: Number },
-        total: { type: Number }
+        total: { type: Number },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
 
-OrderSchema.pre("save", function(next) {
+OrderSchema.pre('save', function(next) {
     const order = this;
 
     Food.find({ _id: { $in: order.products } }, (error, foods) => {
@@ -48,4 +48,4 @@ OrderSchema.pre("save", function(next) {
     });
 });
 
-module.exports = mongoose.model("Order", OrderSchema);
+module.exports = mongoose.model('Order', OrderSchema);

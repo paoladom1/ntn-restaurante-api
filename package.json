@@ -5,6 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "npm run prod",
+        "prettify": "prettier --write 'src/**/*.js'",
         "server": "babel-node ./src/app.js",
         "server:prod": "node ./dist/app.js",
         "dev": "nodemon ./src/app.js --exec babel-node --",

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
@@ -10,18 +10,18 @@ const FoodSchema = new Schema(
         category: {
             type: String,
             enum: [
-                "BREAKFAST",
-                "BEVERAGE",
-                "ENTREES",
-                "MAIN",
-                "DESSERT",
-                "SNACKS"
+                'BREAKFAST',
+                'BEVERAGE',
+                'ENTREES',
+                'MAIN',
+                'DESSERT',
+                'SNACKS',
             ],
-            default: "MAIN",
-            required: true
-        }
+            default: 'MAIN',
+            required: true,
+        },
     },
     { timestamps: true }
 );
 
-module.exports = mongoose.model("Food", FoodSchema);
+module.exports = mongoose.model('Food', FoodSchema);

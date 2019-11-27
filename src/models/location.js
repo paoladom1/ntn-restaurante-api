@@ -1,5 +1,5 @@
-import mongoose from "mongoose";
-import Order from "./order";
+import mongoose from 'mongoose';
+import Order from './order';
 
 const Schema = mongoose.Schema;
 
@@ -9,11 +9,11 @@ const LocationSchema = new Schema(
         city: String,
         department: String,
         phone: String,
-        orders: [Order.schema]
+        orders: [Order.schema],
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
 
-module.exports = mongoose.model("Location", LocationSchema);
+module.exports = mongoose.model('Location', LocationSchema);

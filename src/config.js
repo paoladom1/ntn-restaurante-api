@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 dotenv.config();
 
@@ -7,6 +7,5 @@ module.exports = {
     ENV: process.env.NODE_ENV,
     DB_URL: process.env.MONGODB_URL,
     DB_NAME: process.env.MONGODB_NAME,
-    JWT_KEY: process.env.JWT_KEY
-}
-
+    JWT_KEY: process.env.JWT_KEY,
+};
