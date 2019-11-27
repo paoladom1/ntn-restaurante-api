@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import moment from 'moment';
 
 import Order from '../models/order';
 import Event from '../models/event';
@@ -21,6 +22,7 @@ module.exports.getMyOrders = (req, res) => {
 
         Order.find({ client: data._id })
             .populate('products')
+            .sort({ date: 'desc' })
             .exec((error, orders) => {
                 if (error)
                     return res.status(500).json({
@@ -110,22 +112,50 @@ module.exports.createMyEvent = (req, res) => {
             });
 
         const data = jwt.verify(token, JWT_KEY);
+        const newDate = moment(date).startOf('day');
 
-        const event = new Event({
+        Event.find({
             client: data._id,
-            phone,
-            amount_of_people,
-            date,
-        });
+            date: {
+                $gte: newDate.toDate(),
+                $lte: moment(newDate)
+                    .endOf('day')
+                    .toDate(),
+            },
+        })
+            .then(docs => {
+                if (docs.length === 0) {
+                    const event = new Event({
+                        client: data._id,
+                        phone,
+                        amount_of_people,
+                        date,
+                    });
 
-        event
-            .save()
-            .then(event => {
-                res.status(201).json({
-                    status: 'success',
-                    message: 'event created',
-                    data: { event },
-                });
+                    event
+                        .save()
+                        .then(event => {
+                            res.status(201).json({
+                                status: 'success',
+                                message: 'Evento creado exitosamente',
+                                data: { event },
+                            });
+                        })
+                        .catch(error => {
+                            console.log(error);
+                            res.status(400).json({
+                                status: 'failed',
+                                message: 'No se pudo crear el evento',
+                                data: null,
+                            });
+                        });
+                } else {
+                    return res.status(400).json({
+                        status: 'error',
+                        message: 'Ya existe una reserva este dia',
+                        data: null,
+                    });
+                }
             })
             .catch(error => {
                 console.log(error);
@@ -136,8 +166,11 @@ module.exports.createMyEvent = (req, res) => {
                 });
             });
     } catch (error) {
-        console.log(error);
-        res.status(400).json({ error: error });
+        res.status(400).json({
+            status: 'failed',
+            message: 'couldnt create event',
+            data: null,
+        });
     }
 };
 
@@ -158,6 +191,7 @@ module.exports.findMyEvents = (req, res) => {
 
         Event.find({ client: data._id })
             .populate('client', 'name')
+            .sort({ date: 'desc' })
             .exec((err, events) => {
                 if (err)
                     return res.status.json({
