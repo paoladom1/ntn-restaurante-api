@@ -2,7 +2,7 @@ import User from "../models/user";
 import Order from "../models/order";
 import Food from "../models/food";
 
-import { JWT_KEY } from "../../config";
+import { JWT_KEY } from "../config";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 

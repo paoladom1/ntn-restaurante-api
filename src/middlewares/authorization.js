@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import User from "../models/user";
-import { JWT_KEY } from "../../config";
+import { JWT_KEY } from "../config.js";
 
 module.exports = allowedRoles => (req, res, next) => {
     try {
