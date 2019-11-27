@@ -4,7 +4,7 @@
   "description": "restful api using express and mongoDB",
   "main": "index.js",
   "scripts": {
-    "start": "node ./src/app.js",
+    "start": "npm run prod",
     "server": "babel-node ./src/app.js",
     "server:prod": "node ./dist/app.js",
     "dev": "nodemon ./src/app.js --exec babel-node --",
