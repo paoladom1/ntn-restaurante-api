@@ -1,48 +1,107 @@
 import Event from "../models/event";
 
-module.exports.getId = (req, res) => {
-  Event.find({ name: req.params.name }, function(err, docs) {
-    if (err) res.status(500).json(err);
-    else res.status(200).json(docs);
-  });
-};
+module.exports.findById = (req, res) => {
+    const { id } = req.params;
 
-module.exports.createEvent = (req, res) => {
-  let newEvent = new Event({
-    name: req.body.name,
-    amount_of_people: req.body.amount_of_people,
-    reservation: req.body.reservation
-  });
-
-  newEvent
-    .save()
-    .then(event => {
-      res.status(200).json(event);
-    })
-    .catch(err => {
-      res.status(500).json(err);
+    Event.findById(id, function(err, docs) {
+        if (err)
+            return res.status.json({
+                status: "failed",
+                message: err,
+                data: null
+            });
+        else
+            return res.status(200).json({
+                status: "success",
+                message: "events fetched",
+                data: docs
+            });
     });
 };
 
-module.exports.updateEvent = (req, res) => {
-  Event.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true },
-    (err, event) => {
-      if (err) return res.status(500).send(err);
-      return res.send(event);
-    }
-  );
+module.exports.find = (_, res) => {
+    Event.find({}, function(err, docs) {
+        if (err)
+            return res.status.json({
+                status: "failed",
+                message: err,
+                data: null
+            });
+        else
+            return res.status(200).json({
+                status: "success",
+                message: "events fetched",
+                data: { events: docs }
+            });
+    });
 };
 
-module.exports.deleteEvent = (req, res) => {
-  Event.findByIdAndRemove(req.params.id, (err, event) => {
-    if (err) return res.status(500).send(err);
-    const response = {
-      msg: "Event successfully deleted",
-      id: event._id
-    };
-    return res.status(200).send(response);
-  });
+module.exports.createEvent = (req, res) => {
+    const { client, phone, amount_of_people, date } = req.body;
+
+    try {
+        const event = new Event({
+            client,
+            phone,
+            amount_of_people,
+            date
+        });
+
+        event
+            .save()
+            .then(event => {
+                res.status(201).json({
+                    status: "success",
+                    message: "event created",
+                    data: { event }
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                res.status(400).json({
+                    status: "failed",
+                    message: "couldnt create event",
+                    data: null
+                });
+            });
+    } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: error });
+    }
+};
+
+module.exports.updateOneEvent = (req, res) => {
+    const { id } = req.params;
+
+    Event.updateOneEvent({ _id: id }, req.body, (err, doc) => {
+        if (err)
+            return res.status(400).json({
+                status: "failed",
+                message: "there was an error",
+                data: null
+            });
+        return res.status(200).json({
+            status: "success",
+            message: "event updated",
+            data: { doc }
+        });
+    });
+};
+
+module.exports.deleteOneEvent = (req, res) => {
+    const { id } = req.params;
+
+    Event.deleteOne({ _id: id }, error => {
+        if (error)
+            return res.status(400).json({
+                status: "failed",
+                message: "there was an error",
+                data: null
+            });
+        return res.status(200).json({
+            status: "success",
+            message: "Deleted event",
+            data: null
+        });
+    });
 };
