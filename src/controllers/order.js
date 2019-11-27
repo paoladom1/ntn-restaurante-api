@@ -1,21 +1,21 @@
-import Order from "../models/order";
-import Food from "../models/food";
+import Order from '../models/order';
+import Food from '../models/food';
 
 module.exports.getOrders = (req, res) => {
     Order.find({})
-        .populate("client products")
+        .populate('client products')
         .exec(function(err, orders) {
             if (err)
                 return res.status(500).json({
-                    status: "error",
+                    status: 'error',
                     message: err._message,
-                    data: err
+                    data: err,
                 });
             else
                 return res.status(200).json({
-                    status: "success",
-                    message: "orders retrieved",
-                    data: { orders }
+                    status: 'success',
+                    message: 'orders retrieved',
+                    data: { orders },
                 });
         });
 };
@@ -26,15 +26,15 @@ module.exports.getOrderById = (req, res) => {
     Order.findById(id, (err, order) => {
         if (err)
             return res.status(500).json({
-                status: "error",
+                status: 'error',
                 message: err._message,
-                data: err
+                data: err,
             });
 
         return res.status(200).json({
-            status: "success",
-            message: "order retrieved",
-            data: { order }
+            status: 'success',
+            message: 'order retrieved',
+            data: { order },
         });
     });
 };
@@ -45,9 +45,9 @@ module.exports.createOrder = (req, res) => {
     Food.find({ _id: { $in: products } }, (err, docs) => {
         if (err)
             return res.status(500).json({
-                status: "error",
+                status: 'error',
                 message: err._message,
-                data: err
+                data: err,
             });
 
         const foods = products.map(product => {
@@ -62,23 +62,23 @@ module.exports.createOrder = (req, res) => {
             status,
             products: foods,
             subtotal,
-            total
+            total,
         });
 
         newOrder
             .save()
             .then(order =>
                 res.status(201).json({
-                    status: "success",
-                    message: "orden creada",
-                    data: { order }
+                    status: 'success',
+                    message: 'orden creada',
+                    data: { order },
                 })
             )
             .catch(err => {
                 return res.status(500).json({
-                    status: "error",
-                    message: "ha ocurrido un error",
-                    data: err
+                    status: 'error',
+                    message: 'ha ocurrido un error',
+                    data: err,
                 });
             });
     });
@@ -88,9 +88,9 @@ module.exports.updateOrder = (req, res) => {
     Order.findById(req.params.id, (err, order) => {
         if (err)
             return res.status(500).json({
-                status: "error",
+                status: 'error',
                 message: err,
-                data: null
+                data: null,
             });
 
         order.status = req.body.status;
@@ -98,16 +98,16 @@ module.exports.updateOrder = (req, res) => {
             .save()
             .then(order =>
                 res.status(200).json({
-                    status: "success",
-                    message: "orden actualizada",
-                    data: { order }
+                    status: 'success',
+                    message: 'orden actualizada',
+                    data: { order },
                 })
             )
             .catch(error =>
                 res.status(500).json({
-                    status: "error",
+                    status: 'error',
                     message: error,
-                    data: error
+                    data: error,
                 })
             );
     });
@@ -117,15 +117,15 @@ module.exports.deleteOrders = (req, res) => {
     Order.deleteMany({}, (err, _) => {
         if (err)
             return res.status(500).json({
-                status: "error",
+                status: 'error',
                 message: err._message,
-                data: err
+                data: err,
             });
 
         return res.status(200).json({
-            status: "success",
-            message: "orders deleted",
-            data: null
+            status: 'success',
+            message: 'orders deleted',
+            data: null,
         });
     });
 };

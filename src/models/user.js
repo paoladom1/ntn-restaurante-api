@@ -1,9 +1,9 @@
-import mongoose from "mongoose";
-import validator from "validator";
-import bcrypt from "bcrypt";
+import mongoose from 'mongoose';
+import validator from 'validator';
+import bcrypt from 'bcrypt';
 
-import Order from "../models/order";
-import { isRegExp } from "util";
+import Order from '../models/order';
+import { isRegExp } from 'util';
 
 const Schema = mongoose.Schema;
 
@@ -18,8 +18,8 @@ const UserSchema = new Schema(
             unique: true,
             validate: value => {
                 if (!validator.isEmail(value))
-                    throw new Error("email invalido");
-            }
+                    throw new Error('email invalido');
+            },
         },
         password: { type: String, required: true },
         roles: {
@@ -27,22 +27,22 @@ const UserSchema = new Schema(
                 {
                     type: String,
                     required: true,
-                    enum: ["ADMIN", "EMPLOYEE", "CLIENT"],
-                    default: "CLIENT"
-                }
+                    enum: ['ADMIN', 'EMPLOYEE', 'CLIENT'],
+                    default: 'CLIENT',
+                },
             ],
-            default: ["CLIENT"]
-        }
+            default: ['CLIENT'],
+        },
     },
     {
-        timestamps: true
+        timestamps: true,
     }
 );
 
-UserSchema.pre("save", function(next) {
+UserSchema.pre('save', function(next) {
     const user = this;
 
-    if (user.isModified("password")) {
+    if (user.isModified('password')) {
         bcrypt.hash(user.password, 8, (error, hash) => {
             if (error) {
                 throw new Error(error);
@@ -56,13 +56,13 @@ UserSchema.pre("save", function(next) {
     }
 });
 
-UserSchema.post("deleteOne", (doc, next) => {
+UserSchema.post('deleteOne', (doc, next) => {
     Order.deleteMany({ client: doc._id }, error => {
         if (error) next(error);
         next();
     });
 });
 
-const User = mongoose.model("User", UserSchema);
+const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

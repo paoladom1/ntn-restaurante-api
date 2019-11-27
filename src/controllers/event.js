@@ -1,4 +1,4 @@
-import Event from "../models/event";
+import Event from '../models/event';
 
 module.exports.findById = (req, res) => {
     const { id } = req.params;
@@ -6,15 +6,15 @@ module.exports.findById = (req, res) => {
     Event.findById(id, function(err, docs) {
         if (err)
             return res.status.json({
-                status: "failed",
+                status: 'failed',
                 message: err,
-                data: null
+                data: null,
             });
         else
             return res.status(200).json({
-                status: "success",
-                message: "events fetched",
-                data: docs
+                status: 'success',
+                message: 'events fetched',
+                data: docs,
             });
     });
 };
@@ -23,15 +23,15 @@ module.exports.find = (_, res) => {
     Event.find({}, function(err, docs) {
         if (err)
             return res.status.json({
-                status: "failed",
+                status: 'failed',
                 message: err,
-                data: null
+                data: null,
             });
         else
             return res.status(200).json({
-                status: "success",
-                message: "events fetched",
-                data: { events: docs }
+                status: 'success',
+                message: 'events fetched',
+                data: { events: docs },
             });
     });
 };
@@ -44,24 +44,24 @@ module.exports.createEvent = (req, res) => {
             client,
             phone,
             amount_of_people,
-            date
+            date,
         });
 
         event
             .save()
             .then(event => {
                 res.status(201).json({
-                    status: "success",
-                    message: "event created",
-                    data: { event }
+                    status: 'success',
+                    message: 'event created',
+                    data: { event },
                 });
             })
             .catch(error => {
                 console.log(error);
                 res.status(400).json({
-                    status: "failed",
-                    message: "couldnt create event",
-                    data: null
+                    status: 'failed',
+                    message: 'couldnt create event',
+                    data: null,
                 });
             });
     } catch (error) {
@@ -76,14 +76,14 @@ module.exports.updateOneEvent = (req, res) => {
     Event.updateOneEvent({ _id: id }, req.body, (err, doc) => {
         if (err)
             return res.status(400).json({
-                status: "failed",
-                message: "there was an error",
-                data: null
+                status: 'failed',
+                message: 'there was an error',
+                data: null,
             });
         return res.status(200).json({
-            status: "success",
-            message: "event updated",
-            data: { doc }
+            status: 'success',
+            message: 'event updated',
+            data: { doc },
         });
     });
 };
@@ -94,14 +94,14 @@ module.exports.deleteOneEvent = (req, res) => {
     Event.deleteOne({ _id: id }, error => {
         if (error)
             return res.status(400).json({
-                status: "failed",
-                message: "there was an error",
-                data: null
+                status: 'failed',
+                message: 'there was an error',
+                data: null,
             });
         return res.status(200).json({
-            status: "success",
-            message: "Deleted event",
-            data: null
+            status: 'success',
+            message: 'Deleted event',
+            data: null,
         });
     });
 };

@@ -1,19 +1,19 @@
-import Food from "../models/food";
+import Food from '../models/food';
 
 module.exports.getFood = (req, res) => {
     Food.find({}, (error, docs) => {
         if (error)
             return res.status.json({
-                status: "failed",
+                status: 'failed',
                 message: error,
-                data: null
+                data: null,
             });
         else
             return res.status(200).json({
-                status: "success",
+                status: 'success',
                 count: docs.length,
                 message: `${docs.length} foods fetched`,
-                data: docs
+                data: docs,
             });
     });
 };
@@ -24,16 +24,16 @@ module.exports.getFoodByCategory = (req, res) => {
     Food.find({ category: category.toUpperCase() }, (err, docs) => {
         if (err)
             return res.status(400).json({
-                status: "failed",
+                status: 'failed',
                 message: err,
-                data: null
+                data: null,
             });
         else
             return res.status(200).json({
-                status: "success",
+                status: 'success',
                 count: docs.length,
                 message: `${docs.length} foods fetched`,
-                data: docs
+                data: docs,
             });
     });
 };
@@ -46,23 +46,23 @@ module.exports.createFood = (req, res) => {
             category,
             name,
             description,
-            price
+            price,
         });
 
         food.save()
             .then(food => {
                 res.status(201).json({
-                    status: "success",
-                    message: "food created",
-                    data: { food }
+                    status: 'success',
+                    message: 'food created',
+                    data: { food },
                 });
             })
             .catch(error => {
                 console.log(error);
                 res.status(400).json({
-                    status: "failed",
-                    message: "couldnt create food",
-                    data: null
+                    status: 'failed',
+                    message: 'couldnt create food',
+                    data: null,
                 });
             });
     } catch (error) {
@@ -77,14 +77,14 @@ module.exports.updateOneFood = (req, res) => {
     Food.update({ _id: id }, req.body, (err, doc) => {
         if (err)
             return res.status(400).json({
-                status: "failed",
-                message: "there was an error",
-                data: null
+                status: 'failed',
+                message: 'there was an error',
+                data: null,
             });
         return res.status(200).json({
-            status: "success",
-            message: "food updated",
-            data: { doc }
+            status: 'success',
+            message: 'food updated',
+            data: { doc },
         });
     });
 };
@@ -95,14 +95,14 @@ module.exports.updateManyFood = (req, res) => {
     Food.update(filter, update, { upsert: true }, (err, doc) => {
         if (err)
             return res.status(400).json({
-                status: "failed",
-                message: "there was an error",
-                data: null
+                status: 'failed',
+                message: 'there was an error',
+                data: null,
             });
         return res.status(200).json({
-            status: "success",
-            message: "food updated",
-            data: { doc }
+            status: 'success',
+            message: 'food updated',
+            data: { doc },
         });
     });
 };
@@ -113,14 +113,14 @@ module.exports.deleteOneFood = (req, res) => {
     Food.deleteOne({ _id: id }, error => {
         if (error)
             return res.status(400).json({
-                status: "failed",
-                message: "there was an error",
-                data: null
+                status: 'failed',
+                message: 'there was an error',
+                data: null,
             });
         return res.status(200).json({
-            status: "success",
-            message: "Deleted food",
-            data: null
+            status: 'success',
+            message: 'Deleted food',
+            data: null,
         });
     });
 };
@@ -131,14 +131,14 @@ module.exports.deleteManyFood = (req, res) => {
     Food.deleteMany(filter, error => {
         if (error)
             return res.status(400).json({
-                status: "failed",
+                status: 'failed',
                 message: error,
-                data: null
+                data: null,
             });
         return res.status(200).json({
-            status: "success",
-            message: "Deleted food",
-            data: null
+            status: 'success',
+            message: 'Deleted food',
+            data: null,
         });
     });
 };
