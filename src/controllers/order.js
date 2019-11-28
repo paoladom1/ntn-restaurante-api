@@ -4,6 +4,7 @@ import Food from '../models/food';
 module.exports.getOrders = (req, res) => {
     Order.find({})
         .populate('client products')
+        .sort({ date: 'desc' })
         .exec(function(err, orders) {
             if (err)
                 return res.status(500).json({
